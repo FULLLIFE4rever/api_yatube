@@ -3,7 +3,6 @@ from posts.models import Post, Comment, Group
 from rest_framework import viewsets, status
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
-from django.core.exceptions import PermissionDenied
 
 
 class PostsViewSet(viewsets.ModelViewSet):
@@ -61,7 +60,7 @@ class CommentViewSet(viewsets.ModelViewSet):
         if comment.author == self.request.user:
             return Response(status=status.HTTP_403_FORBIDDEN)
         serializer.save(author=self.request.user)
-        
+
     def update(self, request, pk=None, *args, **kwargs):
         user = request.user
         comment = self.get_object()
